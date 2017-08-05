@@ -1,1 +1,1 @@
-console.log('Hello from app.js and more');
+console.log('Hello from app.js');
