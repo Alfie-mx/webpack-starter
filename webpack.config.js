@@ -1,4 +1,5 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: './src/app.js',
@@ -6,12 +7,26 @@ module.exports = {
         path: __dirname + '/dist',
         filename: 'app.bundle.js'
     },
-    plugins: [new HtmlWebpackPlugin({
-        title: 'Project',
-        minify: {
-            collapseWhitespace: true,
-        },
-        hash: true,
-        template: './src/index.ejs', // Load a custom template (ejs by default see the FAQ for details)
-    })]
+    module: {
+        rules: [
+            { 
+                test: /\.scss$/, 
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'sass-loader']
+                })
+             }
+        ]
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            title: 'Project',
+            minify: {
+                collapseWhitespace: false,
+            },
+            hash: true,
+            template: './src/index.ejs', // Load a custom template (ejs by default see the FAQ for details)
+        }),
+        new ExtractTextPlugin('app.css')
+    ]
 }
