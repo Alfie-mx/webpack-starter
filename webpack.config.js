@@ -1,10 +1,11 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     entry: './src/app.js',
     output: {
-        path: __dirname + '/dist',
+        path: path.resolve(__dirname, '/dist'),
         filename: 'app.bundle.js'
     },
     module: {
@@ -17,6 +18,13 @@ module.exports = {
                 })
              }
         ]
+    },
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        compress: true,
+        port: 9000,
+        stats: 'errors-only',
+        open: true
     },
     plugins: [
         new HtmlWebpackPlugin({
